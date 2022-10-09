@@ -26,7 +26,8 @@ else {
   <div class="collapse navbar-collapse" id="navbarNav">
   <ul class="navbar-nav ms-auto">
     <li class="nav-item">
-      <a class="nav-link" href="" data-bs-target="#info" data-bs-toggle="modal" >Add Info</a>
+      <a class="nav-link" href="" data-bs-target="#info"
+       data-bs-toggle="modal" >Add Info</a>
     </li>
     <li  class="nav-item">
       <a class="nav-link" href="logout.php">Logout</a>
@@ -38,7 +39,8 @@ else {
 </nav>
 <div class='alert alert-success alert-dismissible fade show' role='alert'>
     <strong>Welcome, <?php echo $_SESSION['fullname'];    ?></strong>
-    <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+    <button type='button' class='btn-close' data-bs-dismiss='alert' 
+    aria-label='Close'></button>
 </div>
 
 
@@ -54,6 +56,36 @@ else {
   }
 ?>
 
+<?php
+// add details
+if(isset($_POST['details']))
+{
+  $fullname = $_POST['fullname'];
+  $email = $_POST['email'];
+  $course = $_POST['course'];
+  $amount_paid = $_POST['amount'];
+  $duration = $_POST['duration'];
+  $instructor = $_POST['instructor'];
+  $status = $_POST['status'];
+
+  if (empty($course) or empty($amount_paid) or empty($duration) or
+   empty($instructor) or empty($status)) 
+  {
+    echo"<script>alert('all fields are required!!')</script>";
+  }
+  else 
+  {
+    $query = "INSERT INTO details(fullname,email,course,amount,duration,
+    instructor,status) VALUES ('$fullname','$email','$course',
+    '$amount_paid','$duration','$instructor','$status')";
+    $res = mysqli_query($con, $query);
+    if ($res) {
+      echo"<script>alert('Details added successfully')</script>";
+    }    
+  }
+
+}
+?>
 
 <div class="container">
   <div class="row mt-4">
@@ -68,12 +100,14 @@ else {
       $res = mysqli_query($con, $query);
       if (mysqli_num_rows($res) > 0) {
         while ($arr=mysqli_fetch_array($res)) {
+            $id = $arr['id'];
             $course = $arr['course'];
             $amount = $arr['amount'];
             $duration = $arr['duration'];
             $instructor = $arr['instructor'];
             $status = $arr['status'];
 
+            
             echo"
             <table class='table'>
             <tbody>
@@ -102,42 +136,16 @@ else {
             ";
 
         }
+        echo "<a href='edit.php?id=$id' target='_blank' 
+        class='btn btn-info px-3 mx-3'>Edit</a>";
+        echo "<a href='delete.php?id=$id' target='_blank'
+         class='btn btn-danger px-3'>Delete</a>";
       }
 ?>
-  <a href="edit.php" target="_blank" class="btn btn-info px-3">Edit</a>
+
     </div>
   </div>
 </div>
-
-<?php
-// add details
-if(isset($_POST['details']))
-{
-  $fullname = $_POST['fullname'];
-  $email = $_POST['email'];
-  $course = $_POST['course'];
-  $amount_paid = $_POST['amount'];
-  $duration = $_POST['duration'];
-  $instructor = $_POST['instructor'];
-  $status = $_POST['status'];
-
-  if (empty($course) or empty($amount_paid) or empty($duration) or empty($instructor) or empty($status)) 
-  {
-    echo"<script>alert('all fields are required!!')</script>";
-  }
-  else 
-  {
-    $query = "INSERT INTO details(fullname,email,course,amount,duration,instructor,status) VALUES ('$fullname','$email','$course','$amount_paid','$duration','$instructor','$status')";
-    $res = mysqli_query($con, $query);
-    if ($res) {
-      echo"<script>alert('Details added successfully')</script>";
-    }    
-  }
-
-}
-?>
-
-
 
 
 <!-- Modal -->
@@ -150,8 +158,10 @@ if(isset($_POST['details']))
       </div>
       <div class="modal-body container">
         <form action="" method="POST">
-            <input type="hidden" name="fullname" value="<?php echo $_SESSION['fullname'];?>">
-            <input type="hidden" name="email" value="<?php echo $_SESSION['email'];?>">
+            <input type="hidden" name="fullname" value="
+            <?php echo $_SESSION['fullname'];?>">
+            <input type="hidden" name="email" 
+            value="<?php echo $_SESSION['email'];?>">
             <label for="">Course:</label>
             <input type="text" name="course" class="form-control mb-2">
             

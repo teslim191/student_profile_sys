@@ -59,8 +59,10 @@ else {
                 <input type="email" name="email" class="form-control">
                 <label for="">Password</label>
                 <input type="password" name="password" class="form-control">
-                <button type="submit" name="login" class="btn btn-success mt-4">Login</button>
-                <p>Don't have an account? <a href="register.php" target="_blank" rel="noopener noreferrer">register</a></p>
+                <button type="submit" name="login" class="btn btn-success 
+                mt-4">Login</button>
+                <p>Don't have an account? <a href="register.php" 
+                target="_blank" rel="noopener noreferrer">register</a></p>
             </form>
         </div>
     </div>
